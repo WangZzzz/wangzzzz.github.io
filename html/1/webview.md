@@ -1,3 +1,4 @@
+# WebView资源拦截解析
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在Android自带的WebView中，如果需要对访问的URL或者资源进行拦截，主要涉及到WebViewClient中的三个方法：onPageStarted、shouldOverrideUrlLoading、shouldInterceptRequest。
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先来分析onPageStarted方法和shouldOverrideUrlLoading方法，分别在两个方法以及onPageFinished方法中打印log。
 ###### 情形一
