@@ -185,10 +185,15 @@
     }
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流程如下：
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1).首先在以插件名称为key，以插件实例为value的LinkedHashMap<String, CordovaPlugin>中查找插件是否已经被实例化，如果被实例化则直接返回；
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2).若map中没有service对应的CordovaPlugin示实例，则在以插件名称为key，以插件的相关信息为value的LinkedHashMap<String, PluginEntry>中查找插件信息，如果对应的此信息没有查找到，则说明config.xml中没有配置此插件信息，则返回null。
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(3).如果从LinkedHashMap<String, PluginEntry>查找到的PluginEntry不为null，则判断下PluginEntry中的CordovaPlugin是否为null，如果为null，则调用instantiatePlugin方法得到CordovaPlugin的实例，此方法根据插件的全路径类名反射得到插件实例。
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(4).在实例化CordovaPlugin后，调用CordovaPlugin的privateInitialize进行初始化操作。
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(5).将实例化后的CordovaPlugin添加到LinkedHashMap<String, CordovaPlugin>中，并返回CordovaPluign实例。
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CordovaPlugin的privateInitialize方法如下：
