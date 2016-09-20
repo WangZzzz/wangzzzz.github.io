@@ -1,4 +1,4 @@
-# Cordova—Android源码分析二：JS调用CordovaPlugin
+# Cordova—Android源码分析二：JS调用Native
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在CordovaWebView初始化时，会根据Android版本的不同，初始化不同的JS调用Native的方法，当Android版本小于4.2(API 17)时，会采用prompt的方式处理JS的调用，当Android版本大于4.2时，会采用JavaScriptInterface的方式调用，初始化的方法在CordovaWebViewImpl的init(CordovaInterface cordova, List<PluginEntry> pluginEntries, CordovaPreferences preferences)方法中的：
 
     engine.init(this, cordova, engineClient, resourceApi, pluginManager, nativeToJsMessageQueue);
