@@ -122,4 +122,8 @@ SystemExposedJsApi如下：
                 callbackContext.sendPluginResult(cr);
             }
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时，还会监控执行时间，如果时间过长，则警告用户插件执行阻塞了主线程。此时，JS调用Native完成。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时，还会监控执行时间，如果时间过长，则警告用户插件执行阻塞了主线程，为了防止阻塞主线程，需要在子线程中进行耗时操作，Cordova提供了一个线程池供插件调用，在CordovaPlugin中使用以下方法获取线程时：
+
+    cordova.getThreadPool();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以上为Cordova中JS调用本地插件的全部过程。
