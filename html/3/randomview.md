@@ -51,8 +51,8 @@ getHeight() = getMeasuredHeight() + View高度超出屏幕的部分
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
         //.........................
-        mHeight = getHeight();
-        mWidth = getWidth();
+        mHeight = getMeasuredHeight();
+        mWidth = getMeasuredWidth();
         mTextSize = (int) ((float) mWidth / 4.5);
         //如果高度小于字体大小，则字体高度为0.5倍的view高度，防止字体超出view大小
         if (mHeight < mTextSize) {
@@ -63,7 +63,7 @@ getHeight() = getMeasuredHeight() + View高度超出屏幕的部分
 &nbsp;&nbsp;&nbsp;&nbsp;通过getHeight()和getWidth()方法获取View的实际显示高度，考虑到需要4个验证码字符，以及3个空格，经过实际实验，采用View宽度除以4.5，以得到验证码字体大小，同时，需要判断是否会出现高度过小的情况，如果高度过小，则字体高度为0.5倍的View高度，防止验证码溢出高度。
 
 ####View的绘制过程
-&nbsp;&nbsp;&nbsp;&nbsp;在onDraw()方法里面进行自定义View的绘制，在View对象创建时，此时无法得知View的大小，刚开始获取的宽/高为0，为了防止此时开始绘制验证码，首先需要判断当前mHeight和mWidth是否为0。然后，开始初始化画笔，设置画笔Paint绘制字体的大小，笔触的宽度等等：
+&nbsp;&nbsp;&nbsp;&nbsp;在onDraw()方法里面进行自定义View的绘制，首先初始化画笔，设置画笔Paint绘制字体的大小，笔触的宽度等等：
     
     //去锯齿
     mPaint.setAntiAlias(true);
