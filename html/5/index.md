@@ -1,5 +1,5 @@
 ###使用JAVA爬取北京豆瓣租房小组租房信息
-本文主要介绍了如何使用Java爬虫根据关键词爬取北京豆瓣租房小组上的租房信息，使用OKhttp作为网络请求的客户端，使用Jsoup解析网页的html，最终的结果使用csv存储，首先看效果：
+最近租的房子到期需要租房，为了获取租房信息，尝试爬取北京豆瓣租房小组的租房信息，本文主要介绍了如何使用Java爬虫根据关键词爬取北京豆瓣租房小组上的租房信息，使用OKhttp作为网络请求的客户端，使用Jsoup解析网页的html，最终的结果使用csv存储，首先看效果：
 使用时，首先需要输入检索的关键词，按回车开始爬取信息：
 
 ![avatar](5.png)
@@ -9,6 +9,7 @@
 ![avatar](9.png)
 
 大体思路是首先初始化租房列表页面的url列表，然后爬取每个列表页面，过滤title，如果title不包含关键词，则记录详情页面的超链接，全部租房列表页面访问完毕后，开多线程访问详情页面，爬取内容，查看内容是否包含关键词。
+####一、信息爬取
 第一步要做的是将要爬取的租房列表页url加入列表，使用chrome查看网页上的分页超链接，如下：
 
 ![avatar](1.png)
@@ -74,7 +75,38 @@
         response.body().close();
     }
 
-####注意的问题
+####二、信息保存
+通过爬虫爬取的信息需要保存到本地进行持久化存储，可以保存到Sqlite数据库，这里为了阅读方便，直接保存到了csv文件，保存链接和链接的标题信息，保存csv中，不同项之间使用','隔开，代码如下：
+
+    public static void writeCSV(String filePath, HashMap<String, String> data, boolean append, String charset) {
+        File file = new File(filePath);
+        if (file != null && file.exists() && file.isFile()) {
+            BufferedWriter bfw = null;
+            try {
+                bfw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), charset));
+                Set<Entry<String, String>> entrySet = data.entrySet();
+                for (Iterator<Entry<String, String>> iterator = entrySet.iterator(); iterator.hasNext(); ) {
+                    Entry<String, String> entry = iterator.next();
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    bfw.write(key + "," + value);
+                    bfw.write("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (bfw != null) {
+                        bfw.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+####三、注意的问题
 1、豆瓣机器人验证问题
 在爬取豆瓣小组的过程中，频繁的爬取会造成服务器返回403错误，可以休眠一段时间后继续爬取。
 有时，爬取速度过快，豆瓣会认为是机器人，从而跳转到如下页面：
@@ -143,6 +175,9 @@
 4、由于头部信息中，加入了"Accept-Encoding : gzip,defate,br"，导致接收到的response进行了gzip压缩，可以使用GZIPInputStream转换成正常的InputStream：
 
 ![avatar](14.png)
+
+5、登录问题
+有时爬取过多或者爬取频率过快，会导致豆瓣认证是否是人的行为，需要登录来验证，登录逻辑同问题1中的豆瓣机器人验证的解决办法，同样的也是需要验证码信息，以及用户名密码信息，发起post请求登录。
 
 全部示例代码如下：
 <a href='Douban.java'>示例代码</a>
