@@ -409,6 +409,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用于将服务端的Binder对象转换为客户端需要的AIDL接口类型的对象，转换区分进程，客户端服务端位于同一进程，返回服务端的Stub对象本身；否则返回的是系统的封装后的Stub.proxy对象。
 
 *asBInder：*
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回Binder对象
 
 *onTransact：*
@@ -420,7 +421,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此方法运行在客户端，当客户端远程调用此方法时，它的内部实现是这样的：首先创建该方法所需要的输入型Parcel对象_data、输出型Parcel对象_reple和返回值对象_result,然后将该方法的参数信息写入_data中；接着调用transact方法来发RPC请求，同时当前线程挂起；然后服务端的onTransact方法会被调用，直到RPC过程返回后，当前线程继续执行，并从_reply中取出RPC过程返回的结果，写入_result中。
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Messenger同样作为跨进程通信的一种方法，他与AIDL之间的区别如下：
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、Messenger的底层也是由AIDL实现的，对AIDL进行了封装；
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、Messenger不适合处理大量的并发数据，Messenger对Client的请求时单线程的，AIDL是多线程的；
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、调用Client的方法，使用Messenger获取返回值是同步的，使用AIDL获取返回值是异步的；
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、Messenger不适用于跨进程调用服务端的方法。
