@@ -8,3 +8,4 @@
 + <a href="./html/4/index.html">Android——选取多张本地相册图片</a>
 + <a href="./html/5/index.html">使用JAVA爬取北京豆瓣租房小组租房信息</a>
 + <a href="./html/6/index.html">链家房源爬虫</a>
++ + <a href="./html/7/index.html">Android AIDL的学习及使用</a>
