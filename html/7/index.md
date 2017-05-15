@@ -12,8 +12,11 @@
 ![avatar](1.png)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AIDL的使用步骤如下：
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设使用场景为客户端需要从服务端获取商品信息，同时可以添加商品到服务端，开发环境为Android Studio 2.3.1。
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务端：
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、新建商品Product类，需要实现Parcelable接口如下：
 
 	package com.wz.query.aidl;
@@ -402,7 +405,7 @@
 
 *DESCRIPTION：*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binderd的唯一标识，一般用当前的类名表示。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binderd的唯一标识，一般用当前的类名表示，在本例中为"com.wz.query.aidl.IProductManager"
 
 *asInterface(android.os.IBinder obj）：*
 
@@ -416,9 +419,9 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此方法运行在服务端中的Binder线程池中，当客户端发起跨进程请求时，远程请求会通过系统底层封装后交由此方法处理。
 
-*Proxy#addProduct、getProductList：*
+*Proxy#getProductList、addProduct：*
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此方法运行在客户端，当客户端远程调用此方法时，它的内部实现是这样的：首先创建该方法所需要的输入型Parcel对象_data、输出型Parcel对象_reple和返回值对象_result,然后将该方法的参数信息写入_data中；接着调用transact方法来发RPC请求，同时当前线程挂起；然后服务端的onTransact方法会被调用，直到RPC过程返回后，当前线程继续执行，并从_reply中取出RPC过程返回的结果，写入_result中。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getProductList运行在客户端，当客户端远程调用此方法时，它的内部实现是这样的：首先创建该方法所需要的输入型Parcel对象_data、输出型Parcel对象_reple以及返回值对象_result,然后将该方法的参数信息写入_data中；接着调用transact方法来发RPC请求，同时当前线程挂起；然后服务端的onTransact方法会被调用，直到RPC过程返回后，当前线程继续执行，并从_reply中取出RPC过程返回的结果，写入_result中。addProduct方法同样运行在客户端，它的执行过程和getProductList相同，由于addProduct没有返回值，因此不需要从_reply中取出返回值。_
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Messenger同样作为跨进程通信的一种方法，他与AIDL之间的区别如下：
 
