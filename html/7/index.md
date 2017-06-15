@@ -263,7 +263,8 @@
 
 	public class ProductService extends Service {
 
-	    private List<Product> mProducts = new ArrayList<>();
+	    //使用CopyWriteArrayList保证线程安全
+        private CopyOnWriteArrayList<Product> mProducts = new CopyOnWriteArrayList<>();
 
 	    private Binder mBinder = new IProductManager.Stub() {
 
