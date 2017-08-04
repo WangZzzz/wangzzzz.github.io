@@ -221,6 +221,20 @@ bottom,即为top再加上分割线本身的高度（宽度）。
         }
     }
 
+在使用自定义Drawable作为分割线时，需要使用"rectangle"，而不能使用"line"，若分割线有左右偏移量，可以使用"inset"，示例如下：
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <inset xmlns:android="http://schemas.android.com/apk/res/android"
+           android:insetLeft="15dp">
+        <shape
+            android:shape="rectangle"
+            >
+            <solid
+                android:color="#eaeaea"/>
+            <size android:height="1dp"/>
+        </shape>
+    </inset>
+
 #####设置头部布局和尾部布局
 <img src="headerview.png" width="320" height="640">
 <img src="footerview.png" width="320" height="640">
